@@ -14,6 +14,7 @@ Prerequisites :
 
 - you need to install [docker](https://github.com/tdeheurles/docs/blob/master/docker)
 
+---
 
 The nginx container is just 130mb, you can start pulling it with :
 
