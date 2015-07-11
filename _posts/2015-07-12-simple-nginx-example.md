@@ -1,5 +1,12 @@
 ---
-published: false
+published: true
+layout: post
+categories: 
+  - Tutorial
+tags: 
+  - nginx
+  - docker
+  - frontend
 ---
 
 ## Simple nginx example with docker
