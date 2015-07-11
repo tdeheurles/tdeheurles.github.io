@@ -5,7 +5,6 @@ permalink: /about/
 published: true
 ---
 
-### Contact me
-[tdeheurles@gmail.com](mailto:tdeheurles@gmail.com)
+### Contact me at [tdeheurles@gmail.com](mailto:tdeheurles@gmail.com)
 
-For more informations about me, just follow one of the links bellow
+For more informations, just follow one of the links bellow
