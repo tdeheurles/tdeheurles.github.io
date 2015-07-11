@@ -2,9 +2,13 @@
 published: false
 ---
 
+
 ---
 layout: post
 title: Creating a Blog with Github-Pages and Jekyll
+published: true
+categories: [Tutorial]
+tags: [github-pages, jekyll, blog]
 ---
 
 After a few moment looking at some solutions (jekyll, jekyll-Bootstrap), I found a very easy and quick one named [Jekyll-Now](http://www.jekyllnow.com/). It's especially detailed in this [blog post from SmashingMagazine](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
