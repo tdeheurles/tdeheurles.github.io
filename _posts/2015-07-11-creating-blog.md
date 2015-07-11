@@ -20,6 +20,7 @@ I won't repeat this post because it's exactly what you need to create an easy bl
 
 - It's free
 - You just have to fork a repository and you can start writing your articles
+- Everything can be written in the browser
 - You use only markdown ...
 - ... but you can add HTML if you want
 - don't need to install anything
