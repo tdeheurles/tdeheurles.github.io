@@ -11,11 +11,12 @@ tags:
 ---
 
 
+
 After a few moment looking at some solutions (jekyll, jekyll-Bootstrap), I found a very easy and quick one named [Jekyll-Now](http://www.jekyllnow.com/). It's especially detailed in this [blog post from SmashingMagazine](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 
 I won't repeat this post because it's exactly what you need to create an easy blog hosted on Github for free.
 
-**I just give some details :**
+**Some details :**
 
 - It's free
 - You just have to fork a repository and you can start writing your articles
