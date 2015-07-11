@@ -1,9 +1,4 @@
 ---
-published: false
----
-
-
----
 layout: post
 title: Creating a Blog with Github-Pages and Jekyll
 published: true
