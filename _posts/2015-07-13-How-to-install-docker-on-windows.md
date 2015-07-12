@@ -10,7 +10,7 @@ tags:
   - cygwin
 ---
 
-In this post we will see how to install docker on windows. We will also install Cygwin for a better interactive experience with oh-my-zsh.
+In this post we will see how to install docker on windows. We will also configure PowerShell as Cygwin have an issue for the moment.
 
 ### Some informations before starting
 
