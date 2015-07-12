@@ -95,7 +95,7 @@ And now run a debian (~ 80 mb) :
 
 ```
 root@6fc97235ee57:/# exit
-PS C:\Users\shinmox>
+PS C:\Users\username>
 ```
 
 ### Links
