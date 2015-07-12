@@ -1,9 +1,10 @@
 ---
 published: true
 layout: post
-categories: 
+title: Simple nginx example
+categories:
   - Tutorial
-tags: 
+tags:
   - nginx
   - docker
   - frontend
