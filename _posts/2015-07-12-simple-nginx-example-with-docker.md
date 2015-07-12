@@ -10,11 +10,23 @@ tags:
 ---
 
 
-Prerequisites :
+Nginx (pronounced "engine x") is a web server with a strong focus on high concurrency, performance and low memory usage. It can also act as a reverse proxy server for HTTP, HTTPS, SMTP, POP3, and IMAP protocols, as well as a load balancer and an HTTP cache.
+
+You can find the [wikipedia](https://en.wikipedia.org/wiki/Nginx) page for a quick overview or the [official website](http://nginx.org/) for news, documentation, download etc ...
+
+Oh, and it's open-source ^^
+
+---
+
+We will go in this post through a quick static hosting using the nginx docker container.
+
+### Prerequisites :
 
 - you need to install [docker](https://github.com/tdeheurles/docs/blob/master/docker)
 
 ---
+
+### write the files
 
 The nginx container is just 130mb, you can start pulling it with :
 
