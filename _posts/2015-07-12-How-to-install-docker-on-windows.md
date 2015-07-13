@@ -12,6 +12,9 @@ tags:
 
 In this post we will see how to install docker on windows. We will also configure PowerShell as Cygwin have an issue for the moment.
 
+### Updated
+- 13/07 : Added volume informations
+
 ### Some informations before starting
 
 - This post is an extraction of informations from this documents : [docker](https://tdeheurles/docs/blob/master/docker) and [cygwin](https://tdeheurles/docs/blob/master/cygwin)
@@ -97,6 +100,31 @@ And now run a debian (~ 80 mb) :
 root@6fc97235ee57:/# exit
 PS C:\Users\username>
 ```
+
+### Volume sharing
+
+Volume sharing is a little special with boot2docker because we use a docker installed on a VM. So files shared by the run volume option are from VM to container : `-v VirtualMachine:Container`.
+
+boot2docker already share your c:\Users folder to the VM path `/c/Users`
+
+```bash
+docker run -ti -v /c/Users/username/repository:/repository debian bash
+root@dc5c39b4a0c9:/# cd /repository/
+root@dc5c39b4a0c9:/repository# ls
+CLI-tools       coreos-vagrant         jenkins-cluster          kubernetes-vagrant-coreos-cluster  ws-backend
+Epsilon-Web-UI  docs                   jvm-tools                nginx                              ws-front
+HomeKube        edge                   k8s-base                 packer-example                     ws-wssproxy
+NonGithub       galliasphere           kiwi                     packer-qemu-templates
+Ubuntu          gcloud-packer-example  kubeos                   packer-templates
+backend         gcloud-tools           kubernetes               tdeheurles.github.io
+cloud-rnd       jekyll-now             kubernetes-docker-files  weave-kubernetes
+root@dc5c39b4a0c9:/repository# exit
+```
+
+The sync is a to way automatically updated. So you can work with your editor in windows and run your containers with updated code.
+
+Look at the [official boot2docker documentation](https://github.com/boot2docker/boot2docker/blob/master/README.md#folder-sharing). Personnaly I don't like the samba solution for now as the VM sharing seems so easy like that.  
+The documentation also say that is subject to change, so I won't go further.
 
 ### Links
 
