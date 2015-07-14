@@ -33,7 +33,8 @@ Kubernetes run with 5 services :
 
 It also needs etcd to run.
 
-On cluster, we launch apiserver/ kube-scheduler/ kube-controller-manager on the master. Kubelet and kube-proxy run on each nodes.
+On cluster, we launch apiserver/ kube-scheduler/ kube-controller-manager on the master. Kubelet and kube-proxy run on each nodes.  
+Here, as we run locally, we just start all the services
 
 ## presentation
 
@@ -201,7 +202,24 @@ chmod 755 run_kubectl.sh
 ./run_kubectl.sh
 ```
 
-you should have now a prompt, and writing `kubectl` should give you the help.
+you should have a prompt when running the `run_kubetcl.sh` script, and writing `kubectl` should give you the help :
+
+```bash
+➜  linux-k8s  ./run_kubectl.sh
+root@VM-Ubuntu:/# kubectl
+kubectl controls the Kubernetes cluster manager.
+
+Find more information at https://github.com/GoogleCloudPlatform/kubernetes.
+
+Usage:
+  kubectl [flags]
+  kubectl [command]
+
+Available Commands:
+  get            Display one or many resources
+  describe       ...
+  [...]
+```
 
 So create a nginx container :
 
@@ -211,7 +229,7 @@ CONTROLLER   CONTAINER(S)   IMAGE(S)   SELECTOR    REPLICAS
 nginx        nginx          nginx      run=nginx   1
 ```
 
-and add its services :
+and expose it by creating a service :
 
 ```bash
 ➜  linux-k8s  kubectl expose rc nginx --port=80
@@ -219,7 +237,7 @@ NAME      LABELS      SELECTOR    IP(S)     PORT(S)
 nginx     run=nginx   run=nginx             80/TCP
 ```
 
-after a short moment, `kubectl get services` should show you the IP where you can join the nginx. A `curl the_ip_of_service` should show you a nginx response.
+after a short moment, `kubectl get services` should show you the IP where you can join the nginx. A `curl the_ip_of_service` should show you a nginx response :
 
 ```bash
 ➜  linux-k8s  kubectl get services
