@@ -14,6 +14,11 @@ In this post we will see how to install docker on windows. We will also configur
 
 ### Updated
 - 13/07 : Added volume informations
+- 14/07 : Added issue with cygwin
+
+### Problem with cygwin
+
+- **cygwin** : there is [an opened issue](https://github.com/docker/docker/issues/12469) with it, for now you cannot use tls. So you can start container but not exec/-ti with it.
 
 ### Some informations before starting
 
@@ -35,11 +40,6 @@ In this post we will see how to install docker on windows. We will also configur
  docker ps
  CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
  ```
-
-##### cygwin
-
-Personally I use the Cygwin for Oh-My-Zsh. I like to have the same tools on the OS.  
-But for now, there is [an opened issue](https://github.com/docker/docker/issues/12469) with it.
 
 ##### PowerShell
 

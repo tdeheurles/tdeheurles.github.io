@@ -1,7 +1,7 @@
 ---
 published: false
 layout: post
-title: How to install docker on windows
+title: How to install kubernetes on windows
 categories:
   - Tutorial
 tags:
@@ -36,7 +36,7 @@ You can find the official documentation [here](https://github.com/coreos/etcd).
 
 ---
 
-Here is the command to run the etcd container
+This command will run the etcd container :
 
 ```
 | COMMAND                                         | Info
@@ -46,15 +46,9 @@ Here is the command to run the etcd container
 |   -d                                            | as a daemon
 |   gcr.io/google_containers/etcd:2.0.13          | from the google etcd image
 |   /usr/local/bin/etcd                           | run this command at startup
-|     --addr=127.0.0.1:4001                       | ???
-|     --bind-addr=0.0.0.0:4001                    | ???
-|     --data-dir=/var/etcd/data                   | ???
-```
-
-run it :
-
-```bash
-docker run --net=host -d gcr.io/google_containers/etcd:2.0.13 /usr/local/bin/etcd --addr=127.0.0.1:4001 --bind-addr=0.0.0.0:4001 --data-dir=/var/etcd/data
+|     --addr=127.0.0.1:4001                       |
+|     --bind-addr=0.0.0.0:4001                    |
+|     --data-dir=/var/etcd/data                   |
 ```
 
 ### master and kubelet
@@ -73,14 +67,14 @@ this is four services :
 |   --net=host                                    | share network with host
 |   -d                                            | as a daemon
 |   -v /var/run/docker.sock:/var/run/docker.sock  | share a volume host:container
-|   gcr.io/google_containers/hyperkube:v0.18.2    | from the hyperkube image
+|   gcr.io/google_containers/hyperkube:v0.21.2    | from the hyperkube image
 |   /hyperkube                                    | run this command at startup with args
 |     kubelet                                     |    run kubelet
 |       --api_servers=http://localhost:8080       |    address of apiserver
 |       --v=2                                     |    verbose
-|       --address=0.0.0.0                         |    ???
-|       --enable_server                           |    ???
-|       --hostname_override=127.0.0.1             |    ???
+|       --address=0.0.0.0                         |
+|       --enable_server                           |
+|       --hostname_override=127.0.0.1             |
 |       --config=/etc/kubernetes/manifests        |    manifests path for configuration
 ```
 
@@ -93,7 +87,7 @@ this is four services :
 |   -d                                              | as a daemon/service
 |   --net=host                                      | share network with host
 |   --privileged                                    | root
-|   gcr.io/google_containers/hyperkube:v0.18.2      | from the hyperkube image
+|   gcr.io/google_containers/hyperkube:v0.21.2      | from the hyperkube image
 |     /hyperkube                                    |   run this command at startup with args
 |       proxy                                       |      run proxy
 |       --master=http://127.0.0.1:8080              |         address of master
@@ -107,12 +101,21 @@ this is four services :
 This is a resume of the code, everything should already be running.
 
 ```bash
-docker run --net=host -d gcr.io/google_containers/etcd:2.0.13 /usr/local/bin/etcd --addr=127.0.0.1:4001 --bind-addr=0.0.0.0:4001 --data-dir=/var/etcd/data
+# versions
+kubernetes_version="0.19.1"
+etcd_version="2.0.12"
+
 # Start etcd
+docker run --net=host -d gcr.io/google_containers/etcd:$etcd_version /usr/local/bin/etcd --addr=127.0.0.1:4001 --bind-addr=0.0.0.0:4001 --data-dir=/var/etcd/data
+docker run --net=host -d gcr.io/google_containers/etcd:latest /usr/local/bin/etcd --addr=127.0.0.1:4001 --bind-addr=0.0.0.0:4001 --data-dir=/var/etcd/data
 
 # start kubernetes
-docker run --net=host -d -v /var/run/docker.sock:/var/run/docker.sock  gcr.io/google_containers/hyperkube:v0.18.2 /hyperkube kubelet --api_servers=http://localhost:8080 --v=2 --address=0.0.0.0 --enable_server --hostname_override=127.0.0.1 --config=/etc/kubernetes/manifests
-docker run -d --net=host --privileged gcr.io/google_containers/hyperkube:v0.18.2 /hyperkube proxy --master=http://127.0.0.1:8080 --v=2
+docker run --net=host -d -v /var/run/docker.sock:/var/run/docker.sock  gcr.io/google_containers/hyperkube:v$kubernetes_version /hyperkube kubelet --api_servers=http://localhost:8080 --v=2 --address=0.0.0.0 --enable_server --hostname_override=127.0.0.1 --config=/etc/kubernetes/manifests
+docker run -d --net=host --privileged meteorhacks/hyperkube:latest /hyperkube proxy --master=http://127.0.0.1:8080 --v=2
+
+docker run --net=host -d -v /var/run/docker.sock:/var/run/docker.sock  meteorhacks/hyperkube:latest /hyperkube kubelet --api_servers=http://localhost:8080 --v=2 --address=0.0.0.0 --enable_server --hostname_override=127.0.0.1 --config=/etc/kubernetes/manifests
+docker run -d --net=host --privileged gcr.io/google_containers/hyperkube:v0.19.1 /hyperkube proxy --master=http://127.0.0.1:8080 --v=2
+
 ```
 
 ```bash
