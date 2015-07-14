@@ -14,10 +14,6 @@ We will go through a quick install of kubernetes on top of docker.
 We won't detail kubernetes so much in this post.  
 We will use the [official docker getting started guide](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/docker.md).
 
-This image shows what we are going to do :
-
-![]({{ site.url }}/images/k8s-singlenode-docker.png)
-
 ## prerequisites
 
 You need docker.
