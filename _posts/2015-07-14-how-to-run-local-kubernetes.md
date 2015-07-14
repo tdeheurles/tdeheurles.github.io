@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 layout: post
 title: How to run a local kubernetes
 categories:
