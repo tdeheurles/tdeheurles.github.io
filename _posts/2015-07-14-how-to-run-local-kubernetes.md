@@ -16,7 +16,7 @@ We will use the [official docker getting started guide](https://github.com/Googl
 
 This image shows what we are going to do :
 
-![](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/k8s-singlenode-docker.png)
+![]({{ site.url }}/images/k8s-singlenode-docker.png)
 
 ## prerequisites
 
