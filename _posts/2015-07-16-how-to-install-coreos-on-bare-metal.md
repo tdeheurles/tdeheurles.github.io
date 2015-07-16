@@ -41,7 +41,7 @@ hostname: node01
 ```
 
 - The `#cloud-config` at the start of the file is needed for coreos to understand the file.
-- We configure the core user by adding an encrypted password (see [next](#how-to-encrypt-password) how to create encrypted password)
+- We configure the core user by adding an encrypted password
 - We add the discovery Url
 
 ## installation
