@@ -14,6 +14,10 @@ We will go through a quick install of kubernetes on top of docker.
 We won't detail kubernetes so much in this post.  
 We will use the [official docker getting started guide](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/docker.md).
 
+## update
+
+- [16/07](#windows) Added scripts for windows
+
 ## prerequisites
 
 You need docker.
@@ -202,6 +206,7 @@ chmod 755 run_kubectl.sh
 ./run_kubectl.sh
 ```
 
+tdeheurles/gcloud-tools container is just a container where gcloud sdk is installed.  
 you should have a prompt when running the `run_kubetcl.sh` script, and writing `kubectl` should give you the help :
 
 ```bash
@@ -277,4 +282,64 @@ Our service is running ^^
 
 ## windows
 
-I will post in a few days how to run this on windows.
+To run docker on windows, you can follow this [post]({% post_url 2015-07-12-How-to-install-docker-on-windows %}).
+
+Then, things are very similar :
+
+```batch
+$etcd_version="2.0.9"
+$kubernetes_version="v0.21.2"
+
+# etcd
+docker run                                     `
+  --net=host                                   `
+  -d                                           `
+  gcr.io/google_containers/etcd:$etcd_version  `
+    /usr/local/bin/etcd                        `
+      --addr=127.0.0.1:4001                    `
+      --bind-addr=0.0.0.0:4001                 `
+      --data-dir=/var/etcd/data
+
+# kubernetes
+docker run                                                `
+  --net=host                                              `
+  -d                                                      `
+  -v /var/run/docker.sock:/var/run/docker.sock            `
+  gcr.io/google_containers/hyperkube:$kubernetes_version  `
+    /hyperkube                                            `
+      kubelet                                             `
+        --api_servers=http://localhost:8080               `
+        --v=2                                             `
+        --address=0.0.0.0                                 `
+        --enable_server                                   `
+        --hostname_override=127.0.0.1                     `
+        --config=/etc/kubernetes/manifests
+
+# proxy
+docker run                                                `
+  -d                                                      `
+  --net=host                                              `
+  --privileged                                            `
+  gcr.io/google_containers/hyperkube:$kubernetes_version  `
+    /hyperkube                                            `
+      proxy                                               `
+        --master=http://127.0.0.1:8080                    `
+        --v=2
+```
+
+And as with linux, we can run kubectl with tdeheurles/gcloud-tools :
+
+```batch
+docker run                       `
+  -ti                            `
+  --net=host                     `
+  tdeheurles/gcloud-tools:latest `
+  bash
+```
+
+```batch
+root@boot2docker:/# kubectl cluster-info
+Kubernetes master is running at http://localhost:8080
+```
+
+Just know that kubernetes run `locally in the VM`.
