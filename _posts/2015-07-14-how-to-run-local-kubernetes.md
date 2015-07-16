@@ -14,6 +14,19 @@ We will go through a quick install of kubernetes on top of docker.
 We won't detail kubernetes so much in this post.  
 We will use the [official docker getting started guide](https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/docker.md).
 
+## summary
+
+	- [update](#update)
+	- [prerequisites](#prerequisites)
+	- [kubernetes services](#kubernetes-services)
+	- [presentation](#presentation)
+		- [etcd](#etcd)
+		- [master and kubelet](#master-and-kubelet)
+		- [kube proxy](#kube-proxy)
+	- [Run it](#run-it)
+	- [Make it do something](#make-it-do-something)
+	- [windows](#windows)
+
 ## update
 
 - [16/07](#windows) Added scripts for windows
@@ -158,7 +171,7 @@ docker run                                   \
       --v=2
 EOF
 cat <<EOF >> stop.sh
-docker kill $(docker ps -aq)
+docker kill \`docker ps -aq\`
 EOF
 chmod 755 start.sh stop.sh
 ```
