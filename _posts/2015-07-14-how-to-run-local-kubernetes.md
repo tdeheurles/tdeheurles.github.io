@@ -16,16 +16,16 @@ We will use the [official docker getting started guide](https://github.com/Googl
 
 ## summary
 
-	- [update](#update)
-	- [prerequisites](#prerequisites)
-	- [kubernetes services](#kubernetes-services)
-	- [presentation](#presentation)
-		- [etcd](#etcd)
-		- [master and kubelet](#master-and-kubelet)
-		- [kube proxy](#kube-proxy)
-	- [Run it](#run-it)
-	- [Make it do something](#make-it-do-something)
-	- [windows](#windows)
+- [update](#update)
+- [prerequisites](#prerequisites)
+- [kubernetes services](#kubernetes-services)
+- [presentation](#presentation)
+	- [etcd](#etcd)
+	- [master and kubelet](#master-and-kubelet)
+	- [kube proxy](#kube-proxy)
+- [Run it](#run-it)
+- [Make it do something](#make-it-do-something)
+- [windows](#windows)
 
 ## update
 
