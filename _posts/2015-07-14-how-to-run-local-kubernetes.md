@@ -223,7 +223,7 @@ tdeheurles/gcloud-tools container is just a container where gcloud sdk is instal
 you should have a prompt when running the `run_kubetcl.sh` script, and writing `kubectl` should give you the help :
 
 ```bash
-➜  linux-k8s  ./run_kubectl.sh
+➜  ./run_kubectl.sh
 root@VM-Ubuntu:/# kubectl
 kubectl controls the Kubernetes cluster manager.
 
@@ -242,7 +242,7 @@ Available Commands:
 So create a nginx container :
 
 ```bash
-➜  linux-k8s  kubectl -s http://localhost:8080 run-container nginx --image=nginx --port=80
+➜  kubectl -s http://localhost:8080 run-container nginx --image=nginx --port=80
 CONTROLLER   CONTAINER(S)   IMAGE(S)   SELECTOR    REPLICAS
 nginx        nginx          nginx      run=nginx   1
 ```
@@ -250,7 +250,7 @@ nginx        nginx          nginx      run=nginx   1
 and expose it by creating a service :
 
 ```bash
-➜  linux-k8s  kubectl expose rc nginx --port=80
+➜  kubectl expose rc nginx --port=80
 NAME      LABELS      SELECTOR    IP(S)     PORT(S)
 nginx     run=nginx   run=nginx             80/TCP
 ```
@@ -258,11 +258,11 @@ nginx     run=nginx   run=nginx             80/TCP
 after a short moment, `kubectl get services` should show you the IP where you can join the nginx. A `curl the_ip_of_service` should show you a nginx response :
 
 ```bash
-➜  linux-k8s  kubectl get services
+➜  kubectl get services
 NAME         LABELS                                    SELECTOR    IP(S)        PORT(S)
 kubernetes   component=apiserver,provider=kubernetes   <none>      10.0.0.1     443/TCP
 nginx        run=nginx                                 run=nginx   10.0.0.208   80/TCP
-➜  linux-k8s  curl 10.0.0.208
+➜  curl 10.0.0.208
 <!DOCTYPE html>
 <html>
 <head>
