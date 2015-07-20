@@ -11,9 +11,14 @@ tags:
 
 systemd is an init system that provides many powerful features for starting, stopping and managing processes. Within the CoreOS world, you will almost exclusively use systemd to manage the lifecycle of your Docker containers.
 
+It's the init system of CoreOS, Ubuntu 15.04, ...
+
+This post is a quick go through to have a global understanding.  
+It focus on code and commands to let you read systemd components.
+
 ## Unit files
 
-Systemd read from `unit files` in `/etc/systemd/system`.
+Systemd read from **unit files** in **/etc/systemd/system**.
 
 Here is an example :
 
@@ -34,13 +39,14 @@ ExecStart=/usr/bin/docker run --name busybox1 busybox /bin/sh -c "while true; do
 WantedBy=multi-user.target
 ```
 
-- `Description` help to store informations
-- `After/Requires` tells to wait until
-- `ExecStart` is the process that will be monitored by systemd, often, docker run go there.
-- `WantedBy` is the target that this unit is a part of.
-- `=-` is used to ignore the error and continue the process
+- **Description** help to store informations
+- **After** tells to start after this element
+- **Require** define the dependencies
+- **ExecStart** is the process that will be monitored by systemd.
+- **WantedBy** is the target that this unit is a part of.
+- **=-** is used to ignore the error and continue the process
 
-So we can write it to `/etc/systemd/system/hello.service`.
+So we can write it to **/etc/systemd/system/hello.service**.
 
 We start it :
 
@@ -55,7 +61,7 @@ Control that it's running :
 ```bash
 ➜ docker ps
 CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS               NAMES
-ac697ef16657        busybox             "/bin/sh -c 'while t   19 seconds ago      Up 19 seconds                           busybox1
+ac697ef16657        busybox             /bin/sh -c while t     19 seconds ago      Up 19 seconds                           busybox1
 ➜ systemctl status hello
 ● hello.service - MyApp
    Loaded: loaded (/etc/systemd/system/hello.service; enabled; vendor preset: disabled)
@@ -63,7 +69,7 @@ ac697ef16657        busybox             "/bin/sh -c 'while t   19 seconds ago   
    # [...]
 ➜ docker ps
 CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS               NAMES
-ac697ef16657        busybox             "/bin/sh -c 'while t   43 seconds ago      Up 42 seconds                           busybox1
+ac697ef16657        busybox             /bin/sh -c while t     43 seconds ago      Up 42 seconds                           busybox1
 ➜ journalctl -f -u hello.service
 -- Logs begin at Mon 2015-07-20 11:53:08 UTC. --
 Jul 20 13:08:17 core docker[1552]: Hello World
@@ -71,13 +77,13 @@ Jul 20 13:08:17 core docker[1552]: Hello World
 
 ## Some systemctl commands :
 
-- `systemctl` to see all services
-- `systemctl status` to see a summary of all services status
-- `systemctl status name.service` to te see a service
-- `systemctl enable name.service` to make it run at startup
-- `systemctl start name.service`
-- `systemctl stop name.service`
-- `systemctl reload name.service`
+- **systemctl** to see all services
+- **systemctl status** to see a summary of all services status
+- **systemctl status name.service** to te see a service
+- **systemctl enable name.service** to make it run at startup
+- **systemctl start name.service**
+- **systemctl stop name.service**
+- **systemctl reload name.service**
 
 ## Some [Unit] directives :
 
@@ -103,13 +109,13 @@ RestartSec 	   The amount of time to sleep before restarting a service.
 
 You can find a list of the variables [here](http://www.freedesktop.org/software/systemd/man/systemd.unit.html#Specifiers).
 
-Unit variables starts with the `%` character
+Unit variables starts with the **%** character
 
-Just for an example `"%u"` is the `User name`
+Just for an example **"%u"** is the **User name**
 
 ### Instantiated units
 
-There is two specials variables that can refer to the file name of the unit when this one is written with a `@`, for example foo@bar.service
+There is two specials variables that can refer to the file name of the unit when this one is written with a **@**, for example foo@bar.service
 
 Then, %p will be foo and %i will be bar.
 
