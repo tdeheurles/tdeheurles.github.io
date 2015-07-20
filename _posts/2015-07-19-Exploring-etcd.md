@@ -29,6 +29,21 @@ I will implicitly name etcd the etcd2 version for all the post.
 
 If you want to deep in etcd, go to the official getting started page, else if you want just a quick look at most of the informations, you are at the good place.
 
+## Summary
+
+- [Prerequisites](#prerequisites)
+- [CoreOS](#coreos)
+- [using etcd](#using-etcd)
+	- [Reading/writing from CoreOS](#readingwriting-from-coreos)
+	- [Removing](#removing)
+	- [Reading/writing from container](#readingwriting-from-container)
+	- [Index, PrevNode](#index-prevnode)
+	- [Watching and triggering from changes](#watching-and-triggering-from-changes)
+	- [TTL](#ttl)
+	- [Hidden node](#hidden-node)
+	- [files](#files)
+	- [statistics](#statistics)
+
 ## Prerequisites
 For this tutorial I will use the coreos etcd. CoreOS was 745.1.0 at the writing time.  
 You can use a container if you want :
@@ -80,7 +95,7 @@ coreos:
 ## using etcd
 
 You can use etcd with etcdctl (CLI) or with the HTTP API.  
-NOte that the -L option is needed for CURL as there is redirection in etcd.
+Note that the -L option is needed for CURL as there is redirection in etcd.
 
 ### Reading/writing from CoreOS
 
