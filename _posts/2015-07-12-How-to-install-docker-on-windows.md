@@ -15,6 +15,7 @@ In this post we will see how to install docker on windows. We will also configur
 ### Updated
 - 13/07 : Added volume informations
 - 14/07 : Added issue with cygwin
+- 20/07 : Added Virtual Box 5 informations
 
 ### Problem with cygwin
 
@@ -23,8 +24,9 @@ In this post we will see how to install docker on windows. We will also configur
 ### Some informations before starting
 
 - This post is an extraction of informations from this documents : [docker](https://tdeheurles/docs/blob/master/docker) and [cygwin](https://tdeheurles/docs/blob/master/cygwin)
-- Virtual Box doesn't seem to work on windows10 (May 2015)
+- Virtual Box 4 doesn't work on windows10 (May 2015), Virtual Box 5 seems to work
 - This tests are done on Windows 7
+- boot2docker works on VirtualBox 5
 - Linux and windows does not use the same file system format. This result in difference with file ownership. It can make some problem running code.
 - Links are written at the end of the post to help for some issues
 
