@@ -367,3 +367,5 @@ Kubernetes master is running at http://localhost:8080
 
 Kubernetes is running but is not managed by fleet/systemctl.  
 So first lets resolve this pull problem :
+
+[...]
