@@ -117,7 +117,7 @@ Just for an example **"%u"** is the **User name**
 
 There is two specials variables that can refer to the file name of the unit when this one is written with a **@**, for example foo@bar.service
 
-Then, %p will be foo and %i will be bar.
+Then, **%p** will be foo and **%i** will be bar.
 
 It seems coreos teams use this for port :
 
