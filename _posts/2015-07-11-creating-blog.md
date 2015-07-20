@@ -2,12 +2,13 @@
 layout: post
 title: "Creating a Blog with Github-Pages and Jekyll"
 published: true
-categories: 
+categories:
   - Tutorial
-tags: 
+tags:
   - "github-pages"
   - jekyll
   - blog
+permalink: /creating-blog/
 ---
 
 
