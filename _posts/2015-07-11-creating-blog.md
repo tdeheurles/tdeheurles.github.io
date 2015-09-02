@@ -25,3 +25,15 @@ I won't repeat this post because it's exactly what you need to create an easy bl
 - You use only markdown ...
 - ... but you can add HTML if you want
 - don't need to install anything
+
+##### DISQUS
+
+I did have some problems configuring the disqus (disqus error).
+
+My fix :
+
+ - remove `tdeheurles.com` and `blog.tdeheurles.com` => just redirect to `tdeheurles.github.io` now
+ - removed solution from jekyllnow and use the code proposed by disqus :
+   - https://publishers.disqus.com/engage?utm_source=Home-Nav
+   - follow the setup with `tdeheurles.github.io`
+   - setup `tdeheurles.github.io` in `CNAME` and `config.yml`
