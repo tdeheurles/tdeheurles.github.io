@@ -12,9 +12,6 @@ tags:
   - ES6
 ---
 
-
-# ElectronTest
-
 This project main purpose is to present electron
 
     - Electron
