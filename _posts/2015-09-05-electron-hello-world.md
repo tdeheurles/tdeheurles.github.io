@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "An electron HelloWorld"
-published: false
+published: true
 categories:
   - Tutorial
 tags:
@@ -10,24 +10,28 @@ tags:
   - Babel
   - Javascript
   - ES6
+  - Gulp
+  - ReactJS
+  - ReactBootstrap
 ---
 
 This project main purpose is to present electron
 
-    - Electron
-        - ipc (main & renderer)
-        - Browser-Window
-        - electron-packager
+- Electron
+  - ipc (main & renderer)
+  - Browser-Window
+  - electron-packager
 
 I also use it as a brief tutorial for some other technologies :
 
-    - ReactJS
-    - ReactBootstrap
-    - Rx
-    - Gulp
-    - ES6 (babel)
+- ReactJS
+- ReactBootstrap
+- Rx
+- Gulp
+- ES6 (babel)
 
 Summary
+
 - [Electron main concepts](#electron-main-concepts)
 - [This project main concept](#this-project-main-concept)
 - [Go-Fast](#go-fast)
@@ -58,12 +62,12 @@ You can `add security` or `restrain` the different parts of your views by turnin
 ### This project main concept
 
 This project show a very simple view with two buttons.  
-- The first one will spawn a view each time you click. These windows will use the `ipc` messagerie to receive a `Rx` stream of data to update. The update will be done with `ReactJS`.
+- The first one will spawn a view each time you click. These windows will use the `ipc` messagerie to receive a `Rx` stream of data to update. The update will be done with `ReactJS`.  
 - The second one will show a notification.
 
-The architecture is that one :
-- a node server will host the files (distinct from the electron app)
-- the electron app will run as a browser with additionnal capabilities
+The architecture is that one :  
+- a node server will host the files (distinct from the electron app)  
+- the electron app will run as a browser with additionnal capabilities  
 
 ##### Context
 
@@ -92,6 +96,7 @@ if you've got some problems, go to [issues](#issues) and to the [server](#server
 The official `quick-start` is [here](http://electron.atom.io/docs/latest/tutorial/quick-start/), and you can find the documentation [here](http://electron.atom.io/docs/v0.31.0/).  
 
 An electron project can be achieved with a minimum of 2 files :
+
 ```
 app
  |--- main.js
@@ -99,6 +104,7 @@ app
 ```
 
 The `package.json` is a standard node/iojs package file. We put some `metadata` and the `dependencies`.
+
 ```json
 {
   "name":    "ElectronTest",
@@ -108,6 +114,7 @@ The `package.json` is a standard node/iojs package file. We put some `metadata` 
 ```
 
 The `main.js` is the script that will start the application. A minimalist one will be of that kind :
+
 ```javascript
 const app           = require('app');
 const BrowserWindow = require('browser-window');
@@ -146,6 +153,7 @@ Note that the code here should not be copy/paste as I added lots of comments tha
 Our electron app is composed of two files : `main.js` and `package.json`.
 
 **package.json** :  
+
 ```json
 {
   "name":    "ElectronTest",
@@ -160,14 +168,17 @@ Our electron app is composed of two files : `main.js` and `package.json`.
 It's a very simple package.json with an entry pointing to the `main.json` file. I have added a dependency : `Rx`. These dependency need to be uploaded before running the application (electron won't download it when run).
 
 **main.js** :  
+
 The main.js file is very simple with no idea of architecture.  
 You will find first some globals defining the server and port. `jshint` and `use strict` will restrict the writing of javascript.  
+
 ```javascript
 /* jshint node: true*/
 'use strict';
 ```
 
 We can find a `MAIN` part that will start the application and the first `renderer process`.  
+
 ```javascript
 const app = require('app');
 const BrowserWindow = require('browser-window');
@@ -197,6 +208,7 @@ The `app` is the object representing the `main` process.
 The `BrowserWindow` is the object that represent the `renderer` process.
 
 This code will shut down the app if all window are closed :  
+
 ```javascript
 app.on('window-all-closed', function() {
   if (process.platform != 'darwin') {
@@ -206,6 +218,7 @@ app.on('window-all-closed', function() {
 ```
 
 We then start the application in a `window of 800*600`, ask to load the URL at `localhost:8123`, start the devtools (chromium tools to debug the GUI) and ask to delete the mainWindow instance if the user click on close. The `atomScreen` will be used after but need to be require after the app is ready.  
+
 ```javascript
 let atomScreen = null;
 let mainWindow = null;
@@ -223,11 +236,11 @@ app.on('ready', function() {
 });
 ```
 
-
 #### index.html
 
 Here we will find the different elements that will be loaded by our app.  
 Each HTML is a very simple one with a css url and pointing to a different javascript file. For example :  
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -246,6 +259,7 @@ So our electron app, when starting, open that `index.html`. This html file downl
 
 This `app.js` is a transpilation in ES5 from our source file `app.jsx` written in ES6. You can show [here](#server-process) how it's done.  
 The app.jsx is defined in ReactJS. The code can be read like HTML where you can easily add some javascript code.  
+
 ```javascript
 // First we import some element using ES6 syntaxe
 import React from 'react';
@@ -285,6 +299,7 @@ React.render(
 ```
 
 Then we can find our `Tile.jsx` object used in the `app.jsx` element :  
+
 ```javascript
 // We import some dependencies
 import React      from 'react';
@@ -327,6 +342,7 @@ export default class Tile extends React.Component {
 
 So we sent a message to our main process on the `create_someReactView` topic.  
 Look at the corresponding code in the main process file `main.js` in the electron folder :  
+
 ```javascript
 // We require ipc. Here, the code is not transpiled or browserified so we
 // can just use `require`
@@ -373,6 +389,7 @@ function create_someReactView(){
 ```
 
 `SomeReactView.html` is exactly the same as `index.html`. It just point to `SomeReactView.js` (that is transpiled from `SomeReactView.jsx`) :  
+
 ```javascript
 import React  from 'react'
 import { Grid, Row, Col, Button } from 'react-bootstrap'
@@ -458,6 +475,7 @@ We look now inside the `main process` code in the `app.js` file at the `Rx secti
 
 This code is separated in three elements.  
 The first will permit to trigger an action on the reception of a message on the topic `give_it_to_me` :  
+
 ```javascript
 // We know that the message is an empty envelope so we don't care of arg.
 // event will be used later to find the author of the message with `event.sender`
@@ -470,6 +488,7 @@ ipc_main.on('give_it_to_me', function(event, arg) {
 The second will create a pattern for a sequence.  
 For that we create a source by using Rx.Observable.timer(100,16). At this point, we have an `infinite sequence` espaced by `16ms` that will start after `100ms`.  
 Then we map each `ping` with a value. In this case, I return an array of two random elements. The first element will be the cell to update in the SomeReactView, the other will be the number that will appear :  
+
 ```javascript
   console.log("stream requested")
   const Rx = require('rx')
@@ -483,6 +502,7 @@ Then we map each `ping` with a value. In this case, I return an array of two ran
 ```
 
 For a better understanding :  
+
 ```
 -------------------------------------------------------------> time
 <--- 100ms ---> | <- 16ms -> | <- 16ms -> | <- 16ms -> |
@@ -515,7 +535,7 @@ Each click on the main view button should generate a new GUI with a lot of numbe
 ### packaging
 
 The project comes with two main parts : `electron` and the `server`.  
-We will here have a look to the generation of the code from the source for each one.
+We will here have a look to the generation of the code from the source for each one.  
 The script are very static for now (no config).
 
 #### main path
@@ -524,6 +544,7 @@ In the main path you will find a run script for each mini project : `run-electro
 `build-windows-package.ps1` and `npm-install-for-electron.bat` are used by `run-electron.ps1`.  
 
 ##### run-electron.ps1
+
 ```bash
 # PowerShell script
 
@@ -546,6 +567,7 @@ cd $electron_runtime
 ```
 
 ##### build-windows-package.ps1
+
 ```bash
 # npm propose a packager for electron named `electron-packager`.
 #   This one won't generate a unique exe file but will download all the
@@ -575,6 +597,7 @@ electron-packager               `
 ```
 
 ##### npm-install.bat
+
 ```bash
 # stop log
 @echo off
@@ -595,6 +618,7 @@ npm install %*
 
 ##### run-server.ps1
 This one is just a wrapper to the one in the server folder (you can use the same command inside each folder). It's very simple commands here.
+
 ```bash
 # main folder
 
@@ -614,6 +638,7 @@ npm run gulp
 ```
 
 ##### package.json
+
 ```json
 {
   "name": "electrontest",
@@ -647,6 +672,7 @@ npm run gulp
 
 `gulp` is an helper that can be used to automate task for web stuff. It's in the same category as `webpack`
 The main idea here is to take the sources, transpile them from ReactJS and ES6 to the ES5 the browser knows.
+
 
 ```javascript
 first we get some dependencies
