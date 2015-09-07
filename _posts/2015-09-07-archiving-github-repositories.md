@@ -83,4 +83,4 @@ Write-Host -Foreground Green "Done!"
 Write-Host -Foreground Green "Your archived git repository is named $zipName"
 ```
 
-Thanks to `[Mark Rickert](http://skookum.com/authors/mark-rickert/)`
+Thanks to [`Mark Rickert`](http://skookum.com/authors/mark-rickert/)
