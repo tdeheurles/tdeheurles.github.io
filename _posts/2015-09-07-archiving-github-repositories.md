@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "How to archive your github repositories"
+title: "How to archive your github repositories in zip files"
 published: true
 categories:
   - Tutorial
@@ -8,10 +8,13 @@ tags:
   - git
 ---
 
-Today I had to archive the old github repositories. One [blog post](http://skookum.com/blog/one-git-archive-script-to-rule-them-all/) on the net gives a cool script to do that. Here is just a tranpilation from `Bash` to `Powershell`. I just added two lines :  
+Today I had to archive the old github repositories. One [blog post](http://skookum.com/blog/one-git-archive-script-to-rule-them-all/) on the net gives a cool script to do that. Here is just a transpilation from `Bash` to `Powershell`.  
+I just added two lines :  
 
 - one to remind username and password in order to not be asked on each fetch
 - one to forget them after the git stuff is done
+
+And change the archive type from `tar` to `zip`
 
 #### So here is the script :
 
