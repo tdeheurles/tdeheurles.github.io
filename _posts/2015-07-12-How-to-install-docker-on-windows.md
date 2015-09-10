@@ -40,7 +40,7 @@ In this post we will see how to install docker on windows. We will also configur
 - Make a test
 
  ```bash
-C:\Users\shinmox>docker-machine ssh default                                                                        
+C:\Users\username>docker-machine ssh default                                                                        
                         ##         .                                                                               
                   ## ## ##        ==                                                                               
                ## ## ## ## ##    ===                                                                               
