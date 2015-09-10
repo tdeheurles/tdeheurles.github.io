@@ -104,10 +104,11 @@ Here is a simple workaround :
 - update env using docker-machine
 - start bash/zsh
 
-That script will do the work (you still need cygwin installed) :  
+That script will do the work (you still need cygwin installed), I call it `docker-bash.bat` for that document :  
 
 ```bash
 @ECHO off
+docker-machine start default >> garbagefile
 docker-machine env default --shell cmd > somefile.bat
 call somefile.bat 2> garbagefile
 rm garbagefile somefile.bat
@@ -197,8 +198,17 @@ The installer is [here](http://conemu.github.io/).
 
 Just to have a minimal experience :
 
-- Win+W : start new terminal
+- Win+W : start new terminal (with the configuration)
 - Win+Q/Win+Shift+Q : switch from terminal
+- Win+X : start a cmd.exe without configuration
+
+Ask ConEMU to run our docker start script when you start it :
+
+- `start ConEMU`
+- `Win+Alt+P` or click on the 3 bars in the upper-right corner then click on settings
+- Click on the `Startup` on the left
+- Click `Command line` and enter that cmd : `cmd.exe /k "docker-bash.bat"` where docker-bash.bat is the docker script written before. And don't forget that it need to be callable from the PATH !
+
 
 ### run a bash docker from cmd
 
