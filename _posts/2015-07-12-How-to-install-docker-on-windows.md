@@ -187,8 +187,13 @@ alias ct="clear && pwd && tree"
 # Edit .zshrc
 alias edz="nano ~/.zshrc && uprc"
 alias edb="nano ~/.bashrc && uprc"
-```
 
+# docker
+alias dps="docker ps"
+alias dpsa="docker ps -a"
+alias dk="docker kill"
+alias dgarbage="docker kill \`docker ps -q\` && docker rm \`docker ps -a -q\` && docker rmi \`docker images -q -f dangling=true\`"
+```
 
 ### install ConEMU
 
