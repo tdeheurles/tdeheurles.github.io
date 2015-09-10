@@ -1,136 +1,230 @@
 ---
 published: true
 layout: post
-title: How to install docker on windows
+title: How to install a good docker environment on windows
 categories:
   - Tutorial
 tags:
   - docker
   - windows
   - cygwin
+  - ConEMU
+  - Oh-My-Zsh
 ---
 
 In this post we will see how to install docker on windows. We will also configure PowerShell as Cygwin have an issue for the moment.
 
 ### Updated
+
 - 13/07 : Added volume informations
 - 14/07 : Added issue with cygwin
 - 20/07 : Added Virtual Box 5 informations
 - 04/09 : Toolbox has replaced boot2docker. The post will be updated soon. The extraction of the env into cmd or powershell still works with toolbox.
-
-### Problem with cygwin
-
-- **cygwin** : there is [an opened issue](https://github.com/docker/docker/issues/12469) with it, for now you cannot use tls. So you can start container but not exec/-ti with it.
+- 10/09 : fix to bash under windows issue
 
 ### Some informations before starting
 
-- This post is an extraction of informations from these documents : [docker](https://tdeheurles/docs/blob/master/docker) and [cygwin](https://tdeheurles/docs/blob/master/cygwin)
 - Virtual Box 4 doesn't work on windows10 (May 2015), Virtual Box 5 works but non officially
 - These tests are done on Windows 7
-- boot2docker works on VirtualBox 5
+- Toolbox works on VirtualBox 5
 - Linux and windows does not use the same file system format. This result in difference with file ownership. It can make some problems running code.
 - Links are written at the end of the post to help for some issues
 
-### installing boot2docker
+### installing Toolbox
 
-- Go to [boot2docker](http://boot2docker.io/) and download the installer (127Mo). Version was 1.7 at the writing time.
+- Go to [docker toolbox download](https://www.docker.com/toolbox) and download the installer (316Mo). Version was 1.8.1c at the writing time.
 - Run the installer
-- You should have a `Boot2Docker Start` shortcut on desktop, run it.
-- It will create SSH keys, start the VM and give a prompt
-- now just test that all is fine with :
+- Run a terminal (cmd/ConEMU/...)
+- Start the VM with `docker-machine start default`
+- SSH in with `docker-machine ssh default`
+- Make a test
 
  ```bash
- docker ps
- CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
- ```
+C:\Users\shinmox>docker-machine ssh default                                                                        
+                        ##         .                                                                               
+                  ## ## ##        ==                                                                               
+               ## ## ## ## ##    ===                                                                               
+           /"""""""""""""""""\___/ ===                                                                             
+      ~~~ {~~ ~~~~ ~~~ ~~~~ ~~~ ~ /  ===- ~~~                                                                      
+           \______ o           __/                                                                                 
+             \    \         __/                                                                                    
+              \____\_______/                                                                                       
+ _                 _   ____     _            _                                                                     
+| |__   ___   ___ | |_|___ \ __| | ___   ___| | _____ _ __                                                         
+| '_ \ / _ \ / _ \| __| __) / _` |/ _ \ / __| |/ / _ \ '__|                                                        
+| |_) | (_) | (_) | |_ / __/ (_| | (_) | (__|   <  __/ |                                                           
+|_.__/ \___/ \___/ \__|_____\__,_|\___/ \___|_|\_\___|_|                                                           
+Boot2Docker version 1.8.1, build master : 7f12e95 - Thu Aug 13 03:24:56 UTC 2015                                   
+Docker version 1.8.1, build d12ea79                                                                                
+docker@default:~$ docker ps                                                                                        
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS          
+  NAMES                                                                                                            
+docker@default:~$ docker run hello-world                                                                           
+Unable to find image 'hello-world:latest' locally                                                                  
+latest: Pulling from library/hello-world                                                                           
+                                                                                                                   
+535020c3e8ad: Pull complete                                                                                        
+af340544ed62: Pull complete                                                                                        
+Digest: sha256:a68868bfe696c00866942e8f5ca39e3e31b79c1e50feaee4ce5e28df2f051d5c                                    
+Status: Downloaded newer image for hello-world:latest                                                              
+                                                                                                                   
+Hello from Docker.                                                                                                 
+This message shows that your installation appears to be working correctly.                                         
+                                                                                                                   
+To generate this message, Docker took the following steps:                                                         
+ 1. The Docker client contacted the Docker daemon.                                                                 
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.                                          
+ 3. The Docker daemon created a new container from that image which runs the                                       
+    executable that produces the output you are currently reading.                                                 
+ 4. The Docker daemon streamed that output to the Docker client, which sent it                                     
+    to your terminal.                                                          
 
-##### PowerShell
-
-A `docker` command should return the help and a `docker ps` should fail. The first tells that docker client (boot2docker) is correctly installed, the second shows that the docker daemon (inside the VM) is not reachable from here (VM is not running or client cannot access for other reason).
-
-To run the VM you can :
-
-- clic on `boot2docker start`
-- launch VirtualBox and start the VM.
-- run `boot2docker up` in a terminal (boot2docker need to be in the PATH)
-
-To tell where is the VM, run the following :
-
-```
-boot2docker shellinit | Invoke-Expression
-```
-
-To enable docker on each instance of PowerShell :
-
-```
-# create your power shell profile
-new-item -itemtype file -path $profile -force
-```
-
-and add this code to it :
-
-```
-boot2docker shellinit | Invoke-Expression
-```
-
-### Make a try
-
-```
-PS C:\Users\username> docker run hello-world
-Hello from Docker.
-This message shows that your installation appears to be working correctly.
-
-To generate this message, Docker took the following steps:
- 1. The Docker client contacted the Docker daemon.
- 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
-    (Assuming it was not already locally available.)
- 3. The Docker daemon created a new container from that image which runs the
-    executable that produces the output you are currently reading.
- 4. The Docker daemon streamed that output to the Docker client, which sent it
-    to your terminal.
-
-To try something more ambitious, you can run an Ubuntu container with:
- $ docker run -it ubuntu bash
-
-For more examples and ideas, visit:
- http://docs.docker.com/userguide/
-PS C:\Users\username> docker run -ti debian bash
+                                                                                                                   
+To try something more ambitious, you can run an Ubuntu container with:                                             
+ $ docker run -it ubuntu bash                                                                                      
+                                                                                                                   
+Share images, automate workflows, and more with a free Docker Hub account:                                         
+ https://hub.docker.com                                                                                            
+                                                                                                                   
+For more examples and ideas, visit:                                                                                
+ https://docs.docker.com/userguide/                                                                                
+                                                                                                                   
+docker@default:~$                                   
 ```
 
-And now run a debian (~ 80 mb) :
+### Compatibility
 
-```
-root@6fc97235ee57:/# exit
-PS C:\Users\username>
-```
+Most of the script written with docker suppose that there is a `linux environment` and are written in `bash`.  
+When you run `bash` from windows, if you run docker commands, it will fail with a `"cannot enable tty mode on non tty input"` error.  
 
-### Volume sharing
+Here is a simple workaround :
 
-Volume sharing is a little special with boot2docker because we use a docker installed on a VM. So files shared by the run volume option are from VM to container : `-v VirtualMachine:Container`.
+- [install cygwin](#install-cygwin)
+- start a cmd
+- update env using docker-machine
+- start bash/zsh
 
-boot2docker already share your c:\Users folder to the VM path `/c/Users`
+### Install Cygwin
+
+#### Installation
+
+- First [download](https://www.cygwin.com/), I have used x86 for this tutorial.
+- Then install. When it ask for internet / server, you just accept.
+- shoes this **Packages** (and other if you want) : `tree (utils), openssh (net), rsync (net), zsh (shells), curl (net), wget (Web), git (Devel), ncurses (Utils), vi, nano`. It will make your life easier
+
+go directly to [install ConEMU](#install-conemu) or [run a bash docker from cmd](#run-a-bash-docker-from-cmd) if you don't want to configure a better cygwin environment.
+
+#### Oh-My-Zsh && apt-cyg (optional)
+
+Oh-My-Zsh is a booster for CLI. It gives lots of usefull shortcut and ui. It's an recommended optionnal ^^.  
+To be installed with cygwin installer (just rerun installer to update if you've not chosen this ones) :
+
+- zsh
+- wget
+- git
+
+[install](https://github.com/haithembelhaj/oh-my-cygwin) with :  
 
 ```bash
-docker run -ti -v /c/Users/username/repository:/repository debian bash
-root@dc5c39b4a0c9:/# cd /repository/
-root@dc5c39b4a0c9:/repository# ls
-CLI-tools       coreos-vagrant         jenkins-cluster          kubernetes-vagrant-coreos-cluster  ws-backend
-Epsilon-Web-UI  docs                   jvm-tools                nginx                              ws-front
-HomeKube        edge                   k8s-base                 packer-example                     ws-wssproxy
-NonGithub       galliasphere           kiwi                     packer-qemu-templates
-Ubuntu          gcloud-packer-example  kubeos                   packer-templates
-backend         gcloud-tools           kubernetes               tdeheurles.github.io
-cloud-rnd       jekyll-now             kubernetes-docker-files  weave-kubernetes
-root@dc5c39b4a0c9:/repository# exit
+wget --no-check-certificate https://raw.github.com/haithembelhaj/oh-my-cygwin/master/oh-my-cygwin.sh -O - | sh
 ```
 
-The sync is a to way automatically updated. So you can work with your editor in windows and run your containers with updated code.
+We have to change Cygwin default shell. I just had zsh at the end of my `.  bashrc` that is in `/c/cygwin/home/username/`. It will run bash and then a zsh inside. There should be a better way for Cygwin to start directly zsh, but I didn't find for now.  
 
-Look at the [official boot2docker documentation](https://github.com/boot2docker/boot2docker/blob/master/README.md#folder-sharing). Personnaly I don't like the samba solution for now as the VM sharing seems so easy like that.  
-The documentation also say that is subject to change, so I won't go further.
+Finally reload .bashrc with `exec -l $SHELL`.  
 
-### Links
+Some Oh-My-Zsh shortcut :
 
-- [error fix](https://x86x64.wordpress.com/2015/05/03/docker-on-windows-fata0021-an-error-occurred-trying-to-connect/) on docker startup
-- [this post](https://developer.ibm.com/bluemix/2015/04/16/installing-docker-windows-fixes-common-problems/) fix lots of common issues
-- [An opened issue for Cygwin tls](https://github.com/docker/docker/issues/12469)
+```bash
+gst              # git status
+gaa              # git add --all
+gcmsg "blabla"   # git commit -m "blabla"
+gl               # git pull
+gp               # git push
+```
+
+There is lots of plugin for most of the tools. Look [here](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins). For [git](https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/git/git.plugin.zsh)
+
+
+#### rc files (optional)
+
+In linux, rcfiles are a config files for terminals. When the terminal start, it execute what is in his corresponding rcfile. Bash -> .bashrc, Zsh -> .zshrc.
+
+This files are located in the user folder : `/home/username/`. You can access it in Cygwin with `cd`. (remember that files starting with `.` are hidden (use ls -la to see them))
+
+We can use it to add alias (shortcut for commands), functions, configuration, environment variable, etc ...
+
+#### Some alias examples (optional)
+
+alias are shortcut for CLI. Here are some we can use. Just copy past them in your rcfile.  
+Install with cygwin installer if not already done (or update using the same installer file):  
+
+- ncurses
+- tree
+- clear
+
+```bash
+# update shell
+alias uprc="exec -l $SHELL"
+
+# showing files
+alias l="ls -lthg --color"
+alias la="l -A"
+alias ct="clear && pwd && tree"
+
+# Edit .zshrc
+alias edz="nano ~/.zshrc && uprc"
+alias edb="nano ~/.bashrc && uprc"
+```
+
+
+### install ConEMU
+
+Here I just point to ConEMU installer. The `cmd` and `powershell` UI are unusable if you are not in Windows 10. And good way to go is `ConEMU`.
+
+The installer is [here](http://conemu.github.io/).
+
+Just to have a minimal experience :
+
+- Win+W : start new terminal
+- Win+Q/Win+Shift+Q : switch from terminal
+
+### run a bash docker from cmd
+
+- Start a cmd (with ConEMU if installed)
+- `enable docker` in your cmd.exe :  
+
+```bash
+C:\Users\username>docker ps                                                                       
+Get http://127.0.0.1:2375/v1.19/containers/json: dial tcp 127.0.0.1:2375: ConnectEx tcp: No connection could be made b
+ecause the target machine actively refused it.. Are you trying to connect to a TLS-enabled daemon without TLS?        
+                                                                                                                      
+C:\Users\username>docker-machine env default --shell cmd                                                               
+set DOCKER_TLS_VERIFY=1                                                                                               
+set DOCKER_HOST=tcp://192.168.99.100:2376                                                                             
+set DOCKER_CERT_PATH=C:\Users\username\.docker\machine\machines\default                                                
+set DOCKER_MACHINE_NAME=default                                                                                       
+# Run this command to configure your shell:                                                                           
+# copy and paste the above values into your command prompt                                                            
+                                                                                                                      
+C:\Users\username>set DOCKER_TLS_VERIFY=1
+C:\Users\username>set DOCKER_HOST=tcp://192.168.99.100:2376                                        
+C:\Users\username>set DOCKER_CERT_PATH=C:\Users\username\.docker\machine\machines\default
+C:\Users\username>set DOCKER_MACHINE_NAME=default                                        
+C:\Users\username>docker ps                                                                                            
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS             
+  NAMES                                                            
+```
+
+- start yout bash/zsh :
+
+```bash
+C:\Users\username>bash
+➜  username  docker run -ti busybox sh
+/ # echo run from zsh !!
+run from zsh !!
+/ # %
+➜  username  docker run busybox sh -c "echo run from zsh"
+run from zsh
+➜  username
+```
