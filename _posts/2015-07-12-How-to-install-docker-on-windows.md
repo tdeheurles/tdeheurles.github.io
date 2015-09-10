@@ -169,11 +169,12 @@ We can use it to add alias (shortcut for commands), functions, configuration, en
 #### Some alias examples (optional)
 
 alias are shortcut for CLI. Here are some we can use. Just copy past them in your rcfile.  
-Install with cygwin installer if not already done (or update using the same installer file):  
+The rcfile I modify is located here :  
 
-- ncurses
-- tree
-- clear
+- `c:\cygwin\home\username\zshrc`  
+- `c:\cygwin\home\username\bashrc`  
+
+This plugins are usefull here (ncurses, tree, clear) Install with cygwin installer if not already done (or update using the same installer file).
 
 ```bash
 # update shell
