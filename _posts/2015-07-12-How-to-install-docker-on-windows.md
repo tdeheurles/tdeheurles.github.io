@@ -104,6 +104,17 @@ Here is a simple workaround :
 - update env using docker-machine
 - start bash/zsh
 
+That script will do the work (you still need cygwin installed) :  
+
+```bash
+@ECHO off
+docker-machine env default --shell cmd > somefile.bat
+call somefile.bat 2> garbagefile
+rm garbagefile somefile.bat
+bash
+@ECHO on
+```
+
 ### Install Cygwin
 
 #### Installation
