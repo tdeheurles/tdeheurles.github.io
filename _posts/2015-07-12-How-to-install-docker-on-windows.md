@@ -12,7 +12,7 @@ tags:
   - Oh-My-Zsh
 ---
 
-In this post we will see how to install docker on windows. We will also configure PowerShell as Cygwin have an issue for the moment.
+In this post we will see how to install docker on windows. We will also look at how to work around to the cygwin `cannot enable tty mode on non tty input`.
 
 ### Updated
 
