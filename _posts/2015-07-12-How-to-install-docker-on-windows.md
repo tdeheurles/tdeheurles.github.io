@@ -193,6 +193,9 @@ alias dps="docker ps"
 alias dpsa="docker ps -a"
 alias dk="docker kill"
 alias dgarbage="docker kill \`docker ps -q\` && docker rm \`docker ps -a -q\` && docker rmi \`docker images -q -f dangling=true\`"
+
+# path (here we add docker to our bash PATH)
+export PATH="/cygdrive/c/Program Files/Docker Toolbox:$PATH"
 ```
 
 ### install ConEMU
