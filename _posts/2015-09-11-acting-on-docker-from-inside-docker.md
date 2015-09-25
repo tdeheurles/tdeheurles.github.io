@@ -10,7 +10,7 @@ tags:
 
 Here is a tiny post on how to access your docker daemon from inside a container.
 
-You probably often see the share of the volune `/var/run/docker.sock`. It's the way to share your docker to the container. Not really hard ^^
+You probably often see the share of the volume `/var/run/docker.sock`. It's the way to share your docker to the container. Not really hard ^^
 
 So, for example :
 

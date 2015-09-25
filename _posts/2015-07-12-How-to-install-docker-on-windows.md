@@ -7,8 +7,8 @@ categories:
 tags:
   - docker
   - windows
+  - babun
   - cygwin
-  - ConEMU
   - Oh-My-Zsh
 ---
 
@@ -16,18 +16,19 @@ In this post we will see how to install docker on windows. We will also look at 
 
 ### Updated
 
-- 13/07 : Added volume informations
-- 14/07 : Added issue with cygwin
-- 20/07 : Added Virtual Box 5 informations
-- 04/09 : Toolbox has replaced boot2docker. The post will be updated soon. The extraction of the env into cmd or powershell still works with toolbox.
-- 10/09 : fix to bash under windows issue
+- 13/07: Added volume informations
+- 14/07: Added issue with cygwin
+- 20/07: Added Virtual Box 5 informations
+- 04/09: Toolbox has replaced boot2docker. The post will be updated soon. The extraction of the env into cmd or powershell still works with toolbox.
+- 10/09: fix to bash under windows issue
+- 25/09: Added babun and removed the cygwin/ConEMU solution
 
 ### Some informations before starting
 
 - Virtual Box 4 doesn't work on windows10 (May 2015), Virtual Box 5 works but non officially
 - These tests are done on Windows 7
 - Toolbox works on VirtualBox 5
-- Linux and windows does not use the same file system format. This result in difference with file ownership. It can make some problems running code.
+- Linux and windows does not use the same file system format. This result in differences with file ownership. It can make some problems running code.
 - Links are written at the end of the post to help for some issues
 
 ### installing Toolbox
@@ -99,162 +100,7 @@ When you run `bash` from windows, if you run docker commands, it will fail with 
 
 Here is a simple workaround :
 
-- [install cygwin](#install-cygwin)
-- start a cmd
-- update env using docker-machine
-- start bash/zsh
-
-That script will do the work (you still need cygwin installed), I call it `docker-bash.bat` for that document :  
-
-```bash
-@ECHO off
-docker-machine start default >> garbagefile
-docker-machine env default --shell cmd > somefile.bat
-call somefile.bat 2> garbagefile
-rm garbagefile somefile.bat
-bash
-@ECHO on
-```
-
-### Install Cygwin
-
-#### Installation
-
-- First [download](https://www.cygwin.com/), I have used x86 for this tutorial.
-- Then install. When it ask for internet / server, you just accept.
-- shoes this **Packages** (and other if you want) : `tree (utils), openssh (net), rsync (net), zsh (shells), curl (net), wget (Web), git (Devel), ncurses (Utils), vi, nano`. It will make your life easier
-
-go directly to [install ConEMU](#install-conemu) or [run a bash docker from cmd](#run-a-bash-docker-from-cmd) if you don't want to configure a better cygwin environment.
-
-#### Oh-My-Zsh && apt-cyg (optional)
-
-Oh-My-Zsh is a booster for CLI. It gives lots of usefull shortcut and ui. It's an recommended optionnal ^^.  
-To be installed with cygwin installer (just rerun installer to update if you've not chosen this ones) :
-
-- zsh
-- wget
-- git
-
-[install](https://github.com/haithembelhaj/oh-my-cygwin) with :  
-
-```bash
-wget --no-check-certificate https://raw.github.com/haithembelhaj/oh-my-cygwin/master/oh-my-cygwin.sh -O - | sh
-```
-
-We have to change Cygwin default shell. I just had zsh at the end of my `.  bashrc` that is in `/c/cygwin/home/username/`. It will run bash and then a zsh inside. There should be a better way for Cygwin to start directly zsh, but I didn't find for now.  
-
-Finally reload .bashrc with `exec -l $SHELL`.  
-
-Some Oh-My-Zsh shortcut :
-
-```bash
-gst              # git status
-gaa              # git add --all
-gcmsg "blabla"   # git commit -m "blabla"
-gl               # git pull
-gp               # git push
-```
-
-There is lots of plugin for most of the tools. Look [here](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins). For [git](https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/git/git.plugin.zsh)
-
-
-#### rc files (optional)
-
-In linux, rcfiles are a config files for terminals. When the terminal start, it execute what is in his corresponding rcfile. Bash -> .bashrc, Zsh -> .zshrc.
-
-This files are located in the user folder : `/home/username/`. You can access it in Cygwin with `cd`. (remember that files starting with `.` are hidden (use ls -la to see them))
-
-We can use it to add alias (shortcut for commands), functions, configuration, environment variable, etc ...
-
-#### Some alias examples (optional)
-
-alias are shortcut for CLI. Here are some we can use. Just copy past them in your rcfile.  
-The rcfile I modify is located here :  
-
-- `c:\cygwin\home\username\zshrc`  
-- `c:\cygwin\home\username\bashrc`  
-
-This plugins are usefull here (ncurses, tree, clear) Install with cygwin installer if not already done (or update using the same installer file).
-
-```bash
-# update shell
-alias uprc="exec -l $SHELL"
-
-# showing files
-alias l="ls -lthg --color"
-alias la="l -A"
-alias ct="clear && pwd && tree"
-
-# Edit .zshrc
-alias edz="nano ~/.zshrc && uprc"
-alias edb="nano ~/.bashrc && uprc"
-
-# docker
-alias dps="docker ps"
-alias dpsa="docker ps -a"
-alias dk="docker kill"
-alias dgarbage="docker kill \`docker ps -q\` && docker rm \`docker ps -a -q\` && docker rmi \`docker images -q -f dangling=true\`"
-
-# path (here we add docker to our bash PATH)
-export PATH="/cygdrive/c/Program Files/Docker Toolbox:$PATH"
-```
-
-### install ConEMU
-
-Here I just point to ConEMU installer. The `cmd` and `powershell` UI are unusable if you are not in Windows 10. And good way to go is `ConEMU`.
-
-The installer is [here](http://conemu.github.io/).
-
-Just to have a minimal experience :
-
-- Win+W : start new terminal (with the configuration)
-- Win+Q/Win+Shift+Q : switch from terminal
-- Win+X : start a cmd.exe without configuration
-
-Ask ConEMU to run our docker start script when you start it :
-
-- `start ConEMU`
-- `Win+Alt+P` or click on the 3 bars in the upper-right corner then click on settings
-- Click on the `Startup` on the left
-- Click `Command line` and enter that cmd : `cmd.exe /k "docker-bash.bat"` where docker-bash.bat is the docker script written before. And don't forget that it need to be callable from the PATH !
-
-
-### run a bash docker from cmd
-
-- Start a cmd (with ConEMU if installed)
-- `enable docker` in your cmd.exe :  
-
-```bash
-C:\Users\username>docker ps                                                                       
-Get http://127.0.0.1:2375/v1.19/containers/json: dial tcp 127.0.0.1:2375: ConnectEx tcp: No connection could be made b
-ecause the target machine actively refused it.. Are you trying to connect to a TLS-enabled daemon without TLS?        
-                                                                                                                      
-C:\Users\username>docker-machine env default --shell cmd                                                               
-set DOCKER_TLS_VERIFY=1                                                                                               
-set DOCKER_HOST=tcp://192.168.99.100:2376                                                                             
-set DOCKER_CERT_PATH=C:\Users\username\.docker\machine\machines\default                                                
-set DOCKER_MACHINE_NAME=default                                                                                       
-# Run this command to configure your shell:                                                                           
-# copy and paste the above values into your command prompt                                                            
-                                                                                                                      
-C:\Users\username>set DOCKER_TLS_VERIFY=1
-C:\Users\username>set DOCKER_HOST=tcp://192.168.99.100:2376                                        
-C:\Users\username>set DOCKER_CERT_PATH=C:\Users\username\.docker\machine\machines\default
-C:\Users\username>set DOCKER_MACHINE_NAME=default                                        
-C:\Users\username>docker ps                                                                                            
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS             
-  NAMES                                                            
-```
-
-- start yout bash/zsh :
-
-```bash
-C:\Users\username>bash
-➜  username  docker run -ti busybox sh
-/ # echo run from zsh !!
-run from zsh !!
-/ # %
-➜  username  docker run busybox sh -c "echo run from zsh"
-run from zsh
-➜  username
-```
+- [`install babun`](http://babun.github.io/)
+- start `babun`
+- run [the docker fix from tianglo](https://github.com/tiangolo/babun-docker): `curl -s https://raw.githubusercontent.com/tiangolo/babun-docker/master/setup.sh | source /dev/stdin`
+- run `docker run -ti busybox sh` to control everything is fine
